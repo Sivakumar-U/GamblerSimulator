@@ -1,5 +1,7 @@
 package com.blz.gambler.simulator;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Random;
 
 public class GamblerSimulator {
@@ -59,10 +61,21 @@ public class GamblerSimulator {
 		return totalAmountEarned;
 	}
 
+	public void maxMinEarnedDays() {
+		ArrayList<Integer> day_stake = new ArrayList<Integer>();
+		for (int day = 1; day <= 20; day++) {
+			day_stake.add(resignStake(day));
+		}
+		Collections.sort(day_stake);
+		int size = day_stake.size();
+		System.out.println("The luckiest day with maximum earning: " + day_stake.get(size - 1));
+		System.out.println("The unluckiest day with minimum earning: " + day_stake.get(0));
+	}
+
 	public static void main(String[] args) {
 		System.out.println("WELCOME TO GAMBLER SIMULATION PROBLEM");
 		GamblerSimulator game = new GamblerSimulator();
-		game.calculateForMonth();
+		game.maxMinEarnedDays();
 	}
 
 }
