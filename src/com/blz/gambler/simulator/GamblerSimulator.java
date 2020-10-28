@@ -3,6 +3,7 @@ package com.blz.gambler.simulator;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Random;
+import java.util.Scanner;
 
 public class GamblerSimulator {
 	public static final int STAKE = 100;
@@ -11,17 +12,20 @@ public class GamblerSimulator {
 	public int stake = 100, lossAmount, winAmount, totalAmountEarned = 0;
 	public int lostDays, wonDays = 0;
 
-	public int winOrLoss() {
+	public String winOrLoss() {
 		Random rand = new Random();
 		int num = rand.nextInt(2);
 		if (num == 1) {
 			// System.out.println("***GAMBLER WON***");
 			stake++;
+			return "won the game";
 		} else {
 			// System.out.println("***GAMBLER LOST***");
 			stake--;
+			return "lost the game";
+
 		}
-		return stake;
+
 	}
 
 	public int resignStake(int day) {
@@ -72,10 +76,36 @@ public class GamblerSimulator {
 		System.out.println("The unluckiest day with minimum earning: " + day_stake.get(0));
 	}
 
+	public void continueGame() {
+		String result = winOrLoss();
+		Scanner scan = new Scanner(System.in);
+		if (result.contains("won")) {
+			System.out.println("if you want to continue...Choose Y/N");
+			char res = scan.next().charAt(0);
+			if (res == ('Y' | 'y')) {
+				System.out.println("Continue for next month");
+				game();
+			} else if (res == ('N' | 'n')) {
+				System.out.println("Thank you for playing");
+			} else {
+				System.out.println("Please enter right choice");
+			}
+		}
+	}
+
+	public void game() {
+		winOrLoss();
+		resignStake(20);
+		getTotalAmountWonOrLoss();
+		calculateForMonth();
+		maxMinEarnedDays();
+		continueGame();
+	}
+
 	public static void main(String[] args) {
 		System.out.println("WELCOME TO GAMBLER SIMULATION PROBLEM");
-		GamblerSimulator game = new GamblerSimulator();
-		game.maxMinEarnedDays();
+		GamblerSimulator game1 = new GamblerSimulator();
+		game1.continueGame();
 	}
 
 }
